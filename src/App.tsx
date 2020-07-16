@@ -3,7 +3,7 @@ import { fetchQuizQuestions } from "./API";
 import QuestionCard from "./components/QuestionCard";
 import { QuestionsState, Difficulty } from "./API";
 
-type AnswerObject = {
+export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
@@ -39,9 +39,34 @@ const App = () => {
     setLoading(false);
   };
 
-  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {};
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!gameOver) {
+      // User answer
+        const answer = e.currentTarget.value;
+      // Check answer against correct answer
+      const correct = questions[number].correct_answer === answer;
+      // Add score if answer is correct
+      if (correct) setScore(prev => prev + 1);
+      // Save answer in the array for user answers
+      const asnwerObject = {
+        question: questions[number].question,
+        answer: answer,
+        correct: correct,
+        correctAnswer: questions[number].correct_answer
+      };
+      setUserAnswers(prev => [...prev, asnwerObject])
+    }
+  };
 
-  const nextQuestion = () => {};
+  const nextQuestion = () => {
+    // Move on to next questions if not the last question
+    const nextQuestion = number + 1
+    if (nextQuestion === TOTAL_QUESTIONS) {
+      setGameOver(true);
+    } else {
+      setNumber(nextQuestion)
+    }
+  };
 
   return (
     <div className="App">
@@ -51,7 +76,7 @@ const App = () => {
           Start
         </button>
       ) : null}
-      {!gameOver ? <p className="score">Score</p> : null}
+      {!gameOver ? <p className="score">{score}</p> : null}
       {loading && <p>Loading Questions....</p>}
       {!loading && !gameOver && (
         <QuestionCard
