@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { fetchQuizQuestions } from "./API";
 import QuestionCard from "./components/QuestionCard";
 import { QuestionsState, Difficulty } from "./API";
+import { GlobleStyle, Wrapper } from "./styles/App.styles";
 
 export type AnswerObject = {
   question: string;
@@ -19,9 +20,6 @@ const App = () => {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
-
-  //console.log(fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.EASY));
-  //console.log(questions)
 
   const stratTrivia = async () => {
     setLoading(true);
@@ -42,35 +40,36 @@ const App = () => {
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       // User answer
-        const answer = e.currentTarget.value;
+      const answer = e.currentTarget.value;
       // Check answer against correct answer
       const correct = questions[number].correct_answer === answer;
       // Add score if answer is correct
-      if (correct) setScore(prev => prev + 1);
+      if (correct) setScore((prev) => prev + 1);
       // Save answer in the array for user answers
       const asnwerObject = {
         question: questions[number].question,
         answer: answer,
         correct: correct,
-        correctAnswer: questions[number].correct_answer
+        correctAnswer: questions[number].correct_answer,
       };
-      setUserAnswers(prev => [...prev, asnwerObject])
+      setUserAnswers((prev) => [...prev, asnwerObject]);
     }
   };
 
   const nextQuestion = () => {
     // Move on to next questions if not the last question
-    const nextQuestion = number + 1
+    const nextQuestion = number + 1;
     if (nextQuestion === TOTAL_QUESTIONS) {
       setGameOver(true);
     } else {
-      setNumber(nextQuestion)
+      setNumber(nextQuestion);
     }
   };
 
   return (
-    <div className="App">
-      <h1>React Quiz</h1>
+    <Wrapper>
+      <GlobleStyle />
+      <h1>IQ Quiz</h1>
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
         <button className="start" onClick={stratTrivia}>
           Start
@@ -96,7 +95,7 @@ const App = () => {
           Next Question
         </button>
       ) : null}
-    </div>
+    </Wrapper>
   );
 };
 
