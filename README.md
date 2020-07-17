@@ -1,4 +1,3 @@
-Quiz App
 IQ Quiz App
 
 Follow the steps to run this IQ Quiz App
