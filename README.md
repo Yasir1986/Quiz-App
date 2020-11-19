@@ -10,7 +10,7 @@ Follow the steps to run this IQ Quiz App
 
 Enjoy
 
-Or
+OR
 
 Live deploy link: 
 https://silly-poincare-0a54c6.netlify.app/
