@@ -1,5 +1,4 @@
 import React from "react";
-// Types
 import { AnswerObject } from "../App";
 import { Wrapper, ButtonWrapper } from "../styles/QuestionCard.styles";
 
